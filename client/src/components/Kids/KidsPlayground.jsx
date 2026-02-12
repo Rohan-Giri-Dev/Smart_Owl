@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Piano from '../Arcade/Piano';
 import Drums from '../Arcade/Drums';
 import FlappyBird from '../Arcade/FlappyBird';
-import { Gamepad2, Music, ArrowLeft, Palette, Bird } from 'lucide-react';
+import WordWizard from '../Arcade/WordWizard';
+import { Gamepad2, Music, ArrowLeft, Bird, Palette } from 'lucide-react';
+
 
 const KidsPlayground = () => {
   const [game, setGame] = useState('menu'); // menu, piano, drums
@@ -52,7 +54,7 @@ const KidsPlayground = () => {
 
             <button 
               onClick={() => setGame('flappy')}
-              className="group relative bg-white rounded-[2rem] p-8 flex flex-col items-center gap-6 shadow-[0_10px_0_rgb(200,200,200)] active:shadow-none active:translate-y-[10px] transition-all overflow-hidden md:col-span-2"
+              className="group relative bg-white rounded-[2rem] p-8 flex flex-col items-center gap-6 shadow-[0_10px_0_rgb(200,200,200)] active:shadow-none active:translate-y-[10px] transition-all overflow-hidden"
             >
                 <div className="absolute top-0 left-0 w-full h-4 bg-yellow-400"></div>
                 <div className="w-32 h-32 bg-yellow-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -61,6 +63,20 @@ const KidsPlayground = () => {
                 <div>
                     <h2 className="text-4xl font-black text-slate-800 mb-2">FLAPPY BIRD</h2>
                     <span className="text-slate-400 font-bold text-lg">Fly high! 🐦</span>
+                </div>
+            </button>
+
+            <button 
+              onClick={() => setGame('wizard')}
+              className="group relative bg-white rounded-[2rem] p-8 flex flex-col items-center gap-6 shadow-[0_10px_0_rgb(200,200,200)] active:shadow-none active:translate-y-[10px] transition-all overflow-hidden"
+            >
+                <div className="absolute top-0 left-0 w-full h-4 bg-purple-400"></div>
+                <div className="w-32 h-32 bg-purple-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Palette className="w-16 h-16 text-purple-500" />
+                </div>
+                <div>
+                    <h2 className="text-4xl font-black text-slate-800 mb-2">WORD WIZARD</h2>
+                    <span className="text-slate-400 font-bold text-lg">Spell Magic! 🪄</span>
                 </div>
             </button>
          </div>
@@ -91,6 +107,7 @@ const KidsPlayground = () => {
                 {game === 'piano' && <Piano />}
                 {game === 'drums' && <Drums />}
                 {game === 'flappy' && <FlappyBird />}
+                {game === 'wizard' && <WordWizard />}
             </div>
         </div>
     </div>

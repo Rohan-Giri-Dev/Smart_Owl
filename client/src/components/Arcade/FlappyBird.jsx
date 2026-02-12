@@ -11,10 +11,10 @@ const FlappyBird = () => {
   const requestRef = useRef();
   const birdX = 100; // Fixed x position
   
-  const GAME_SPEED = 2; // Slower
-  const GRAVITY = 0.4; // Floatier
-  const JUMP_STRENGTH = -7; // Adjusted for gravity
-  const PIPE_SPAWN_RATE = 180; // More space between pipes horizontally
+  const GAME_SPEED = 1.5; // Slower for kids
+  const GRAVITY = 0.25; // Floatier
+  const JUMP_STRENGTH = -5; // Adjusted for gravity
+  const PIPE_SPAWN_RATE = 200; // More space between pipes horizontally
   
   const canvasRef = useRef(null);
   const frameCount = useRef(0);
@@ -79,7 +79,7 @@ const FlappyBird = () => {
 
       // Pipe Spawning
       if (frameCount.current % PIPE_SPAWN_RATE === 0) {
-        const gapSize = 180; // Easier for kids
+        const gapSize = 220; // Easier for kids
         const minPipeHeight = 50;
         const maxPipeHeight = canvas.height - gapSize - minPipeHeight;
         const pipeHeight = Math.floor(Math.random() * (maxPipeHeight - minPipeHeight + 1)) + minPipeHeight;
@@ -102,6 +102,7 @@ const FlappyBird = () => {
 
       // Collision Detection
       const birdRadius = 20; 
+      const collisionRadius = 14; // Smaller hitbox for forgiveness
       
       // Ground/Ceiling collision
       if (birdY.current + birdRadius > canvas.height || birdY.current - birdRadius < 0) {
@@ -113,9 +114,9 @@ const FlappyBird = () => {
         // Simple AABB collision check
         // Pipe Width is 60
         if (
-          birdX + birdRadius > pipe.x && 
-          birdX - birdRadius < pipe.x + 60 && 
-          (birdY.current - birdRadius < pipe.topHeight || birdY.current + birdRadius > pipe.topHeight + pipe.gap)
+          birdX + collisionRadius > pipe.x && 
+          birdX - collisionRadius < pipe.x + 60 && 
+          (birdY.current - collisionRadius < pipe.topHeight || birdY.current + collisionRadius > pipe.topHeight + pipe.gap)
         ) {
           setGameState('gameover');
         }
