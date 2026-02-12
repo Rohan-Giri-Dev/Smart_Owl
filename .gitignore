@@ -1,0 +1,85 @@
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- React / Vite ---
+.firebase/
+.firebaserc
+coverage/
+.DS_Store
+*.pem
+
+# Production
+build/
+dist/
+
+# --- IDEs ---
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- OS Generated ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Environment Variables ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# --- ML Service Specific ---
+ml_service/model.pkl
+ml_service/sensor_data.csv
+ml_service/verify_output.txt
+verify_output.txt
+
+# --- Project Specific ---
+*.bat
+!start_owl.bat
+# We want to keep start_owl.bat as it is a utility for users
+# But maybe ignore other temp bat files if any
