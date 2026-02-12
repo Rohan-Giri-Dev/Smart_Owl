@@ -1,117 +1,73 @@
 # 🦉 Smart Owl Platform
 
-**The Ultimate Dual-Purpose IoT System: Safe Nursery Monitoring & Interactive Kids Arcade.**
+**Smart Monitoring for Parents. Interactive Fun for Kids.**
 
-Welcome to the Smart Owl Platform! This project turns a single device into a smart hub that keeps your child safe while they sleep and entertains them when they wake up.
-
----
-
-## 🚀 ONE-CLICK STARTUP (Recommended)
-
-We have automated the entire startup process. You do **NOT** need to open multiple terminals manually.
-
-1.  **Locate the File**: Find `start_owl.bat` in the main project folder.
-2.  **Double-Click It**: This will automatically open three windows:
-    *   **ML Service**: The AI Brain.
-    *   **Backend Server**: The data connector.
-    *   **Frontend Client**: The visual dashboard.
-3.  **Go to Dashboard**: Open your browser and visit **[http://localhost:5173](http://localhost:5173)**.
-
-*That's it! The system is now running.*
+The Smart Owl Platform is a complete IoT solution that transforms a single device into:
+1.  **A Safety Monitor**: Detecting fire, gas, and intruders in real-time.
+2.  **A Musical Arcade**: Letting kids play virtual drums and piano using everyday objects (via Makey Makey).
 
 ---
 
-## 🌟 Key Features
+## 🚀 Quick Start (One-Click)
 
-### 1. 🛡️ Parent Mode (Safety Monitoring)
-A professional-grade dashboard for monitoring the nursery environment.
-*   **Live Metrics**: Real-time tracking of **Temperature**, **Humidity**, and **Air Quality (Gas)**.
-*   **Motion Tracking**: Detects movement in the room. The system is smart enough to distinguish between:
-    *   *Normal Activity*: Occasional movement.
-    *   *High Motion Events*: Sustained activity that triggers a specific alert (e.g., "High Motion Detected! Check Camera").
-*   **Smart Alerts**: Instant warnings for environmental hazards (e.g., "High Gas Levels Detected!").
-*   **History Graphs**: Visual charts showing trends over time.
+**You do NOT need to run complex commands.**
 
-### 2. 🎮 Kids Mode (Interactive Arcade)
-Transforms the system into a fun, educational playground using the **Makey Makey** kit.
-*   **Virtual Piano**: Play music using the keyboard (Arrow Keys + Space).
-*   **Virtual Drums**: Connect bananas, play-dough, or any conductive object to the Makey Makey to create a physical drum kit!
-*   **Engaging Visuals**: Bright, colorful animations designed for children.
-
-### 3. 🧠 AI Anomaly Detection (The "Brain")
-The system uses a **Machine Learning** service (Python + Scikit-Learn) to learn the "normal" patterns of your room.
-*   **It Learns**: It constantly observes temperature, gas, and humidity levels.
-*   **It Detects**: If a value spikes unexpectedly (e.g., gas levels rising without a known cause), it flags it as an anomaly.
-*   **It Identifies**: It tells you *exactly* what is wrong:
-    *   `"High Motion Detected!"`
-    *   `"High Gas Levels Detected!"`
-    *   `"High Temperature Detected!"`
-    *   `"High Humidity Detected!"`
+1.  **Connect Hardware**: Plug your Arduino and Sensors into the computer.
+2.  **Run the Script**: Double-click the file named **`start_owl.bat`**.
+    *   *This will automatically start the AI Brain, the Server, and the Dashboard.*
+3.  **View Dashboard**: Open your browser to **[http://localhost:5173](http://localhost:5173)**.
 
 ---
 
-## 📱 How to Get Mobile Notifications
+## 📱 Features
 
-The system sends push notifications to your phone using **ntfy.sh**.
+### 🛡️ For Parents
+*   **Live Monitoring**: See Temperature, Humidity, and Air Quality instantly.
+*   **Smart Alerts**: Get notified on your phone (via **ntfy.sh**) if:
+    *   Gas levels rise (Fire hazard).
+    *   There is too much motion (Intruder/Baby awake).
+    *   The room gets too hot or humid.
+*   **AI Power**: The system *learns* what is normal for your room and only alerts you when something is truly wrong.
 
-1.  **Install the App**: Download **Ntfy** on iOS or Android.
-2.  **Subscribe**:
-    *   Open the app and click standard **+** (plus).
-    *   Enter topic name: **`smart_owl_alerts`**.
-    *   Click **Subscribe**.
-3.  **Test It**: When an anomaly occurs (like high gas or motion), your phone will buzz immediately!
+### 🎮 For Kids
+*   **Virtual Piano**: Use the keyboard to play music.
+*   **Virtual Drums**: Hook up bananas or play-dough to the **Makey Makey** and turn them into a drum kit!
 
 ---
 
-## 🛠️ Manual Setup (Advanced)
+## 🛠️ Installation Requirements
 
-If you prefer to run things manually or need to debug, follow these steps.
+If running for the first time, you need:
+*   **Node.js** (Installed)
+*   **Python** (Installed)
+*   **Internet** (For initial setup and notifications)
 
-### Prerequisites
-*   Node.js (v16 or higher)
-*   Python (v3.8 or higher)
-*   Arduino connected via USB
-
-### 1. Start the ML Service
-This is the AI brain. It needs to run first.
+### First-Time Setup (Only once)
+Open a terminal in the project folder and run:
 ```bash
+# Install AI dependencies
 cd ml_service
-pip install -r requirements.txt  # Run this once to install tools
-python app.py
-```
+pip install -r requirements.txt
 
-### 2. Start the Backend Server
-This connects to the Arduino.
-```bash
-cd server
-npm install  # Run this once
-node index.js
-```
+# Install Backend dependencies
+cd ../server
+npm install
 
-### 3. Start the Frontend Website
-This is the dashboard you see.
-```bash
-cd client
-npm install  # Run this once
-npm run dev
+# Install Frontend dependencies
+cd ../client
+npm install
 ```
+*After doing this once, you can always just use `start_owl.bat`.*
 
 ---
 
 ## 📂 Project Structure
-
-*   **`client/`**: The React Website (Frontend). Visuals, dashboard, graphs.
-*   **`server/`**: The Node.js Backend. Reads data from USB, sends it to the website and AI.
-*   **`ml_service/`**: The Python AI.
-    *   `app.py`: The web server listening for data.
-    *   `model.py`: The AI logic (Isolation Forest + Motion Tracker).
-    *   `sensor_data.csv`: The "memory" file where historical data is stored.
-*   **`start_owl.bat`**: The automation script to run everything at once.
+*   **`Project_Documentation.md`**: Read this for a deep dive into the logic and code architecture.
+*   **`start_owl.bat`**: The magic script that runs everything.
+*   **`client/`**: The visual website code.
+*   **`server/`**: The code that talks to the Arduino.
+*   **`ml_service/`**: The Python AI code.
 
 ---
 
-## ❓ Troubleshooting
-
-*   **"Port Already in Use"**: You might have old terminals open. Close all terminal windows and try running `start_owl.bat` again.
-*   **No Alerts?**: Make sure you subscribed to `smart_owl_alerts` in the Ntfy app.
-*   **No Data?**: Check if your Arduino is plugged in. The `server` window will show "Serial Port Opened" if it connects successfully.
+*Made with ❤️ for the Smart Owl Project.*
