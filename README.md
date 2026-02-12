@@ -1,5 +1,8 @@
 # 🦉 Smart Owl Platform
 
+![Project Banner](assets/Owl.png)
+
+
 **Smart Monitoring for Parents. Interactive Fun for Kids.**
 
 The Smart Owl Platform is a complete IoT solution that transforms a single device into:
