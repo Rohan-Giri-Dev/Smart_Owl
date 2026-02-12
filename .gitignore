@@ -83,3 +83,8 @@ verify_output.txt
 !start_owl.bat
 # We want to keep start_owl.bat as it is a utility for users
 # But maybe ignore other temp bat files if any
+
+#Pitch and project documentation
+PITCH_DOCUMENTATION.md
+PROJECT_DOCUMENTATION.md
+Project_Documentation
