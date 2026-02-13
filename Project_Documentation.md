@@ -72,4 +72,57 @@ We utilize a batch script (`start_owl.bat`) to orchestrate the startup of all th
 
 ---
 
+## 5. Technology Stack & Tools
+
+This platform relies on a modern, event-driven tech stack to ensure real-time performance and easy extensibility.
+
+### Frontend (The Dashboard)
+- **React.js (Vite)**: Used for building a fast, interactive user interface. We chose Vite for its lightning-fast hot reloading during development.
+- **Tailwind CSS**: A utility-first CSS framework that allows us to style the dashboard rapidly without writing custom CSS files. It handles responsiveness and theming (Dark/Light mode).
+- **Socket.IO-Client**: The library that keeps a persistent connection open with the server, allowing the dashboard to update *instantly* when sensor data changes, without needing to refresh the page.
+- **Lucide React**: Provides the clean, consistent icons used throughout the UI.
+- **Recharts**: A charting library used to render the live environmental graphs.
+
+### Backend (The Edge Server)
+- **Node.js**: The runtime environment executing our JavaScript server code. It was chosen for its non-blocking I/O, which is perfect for handling multiple data streams (Serial + WebSockets + HTTP) simultaneously.
+- **Express.js**: A minimal web framework for Node.js used to handle HTTP routes (e.g., serving the app).
+- **Socket.IO**: The server-side WebSocket library that broadcasts sensor data to all connected clients (web browsers).
+- **SerialPort**: The critical bridge between software and hardware. It opens a communication channel to the Arduino via USB to read raw byte streams.
+- **Node-RTSP-Stream**: Converts the RTSP video stream from the IP camera into a WebSocket stream that can be displayed in a web browser canvas (JSMpeg).
+
+### Machine Learning Service (The Intelligence)
+- **Python (Flask)**: We use Python because of its rich data science ecosystem. Flask creates a lightweight API that the Node.js server can talk to.
+- **Scikit-Learn**: The core ML library. We use the **Isolation Forest** algorithm for unsupervised anomaly detection because it's efficient at identifying "outliers" (anomalies) in high-dimensional datasets without needing labeled training data.
+- **Pandas**: Used for structuring the incoming JSON data into DataFrames for the model to process.
+- **Joblib**: Used to save (pickle) the trained model to a file (`model.pkl`) so it doesn't need to retrain every time the server restarts.
+
+### Hardware
+- **Arduino Uno**: The microcontroller that interfaces with the physical world. It runs a C++ sketch to poll sensors and print data to Serial.
+- **Sensors**: MQ-135 (Gas/Air Quality), DHT11 (Temp/Humidity), PIR (Motion).
+- **Makey Makey**: A unique HID (Human Interface Device) that tricks the computer into thinking everyday objects are keyboard keys (Space, Arrow Keys), enabling the "Fruit Piano" feature.
+
+---
+
+## 6. End-to-End Data Flow (How notifications reach your phone)
+
+The most critical safety feature is the ability to alert you anywhere. Here is the step-by-step journey of a single data packet:
+
+1.  **Sensing**: The **MQ-135** sensor detects a rise in smoke levels.
+2.  **Digitization**: The **Arduino** reads this analog voltage, converts it to a number (e.g., `350`), and prints the string `GAS:350` to the USB Serial port.
+3.  **Ingestion**: The **Node.js Server** is listening to that Serial port. It captures the string `GAS:350` and parses it into a JSON object: `{ gas: 350 }`.
+4.  **Analysis Request**: The Node.js server immediately sends this JSON payload via an HTTP POST request to the **Python ML Service** (`http://localhost:5000/data`).
+5.  **Intelligence Check**:
+    *   The Python service feeds `{ gas: 350 }` into the loaded **Isolation Forest** model.
+    *   The model compares this value against the historical "normal" baseline.
+    *   Since 350 is significantly higher than the usual 100, the model returns: `Prediction: -1 (Anomaly)`.
+6.  **Notification Trigger**:
+    *   Upon detecting the anomaly, the Python script executes the `send_notification()` function.
+    *   It constructs a POST request to `https://ntfy.sh/smart_owl_alerts` with the message: *"Anomaly Detected! High Gas Levels"*.
+7.  **Delivery**:
+    *   The **ntfy.sh** server receives this request.
+    *   It immediately pushes a notification to any phone subscribed to the `smart_owl_alerts` topic via the ntfy app.
+8.  **Result**: Your phone buzzes with the alert within seconds of the smoke detection.
+
+---
+
 *This documentation serves as the technical blueprint for the Smart Owl Platform.*
